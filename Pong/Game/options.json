@@ -21,7 +21,7 @@
         "starting_y": 0.5,
         "radius": 0.01,
         "color": [255,255,255],
-        "speed": 0.3
+        "speed": 0.7
     },
 
     "keys": {

@@ -69,7 +69,13 @@ class Ball:
                 
                 break
 
-        
+        # Collide top/down
+        if self.position.y <= self.radius:
+            self.position.y = self.radius
+            self.velocity.y = -self.velocity.y
+        elif self.position.y + self.radius >= self.game.size.y:
+            self.position.y = self.game.size.y - self.radius
+            self.velocity.y *= -1
 
     def draw(self):
         pygame.draw.circle(self.game.surface, self.color, self.position.to_pygame(), self.radius)
