@@ -1,1 +1,1 @@
-self.ball.position - self.ball.velocity * 50
+self.ball.update(dt)

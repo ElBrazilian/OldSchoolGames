@@ -13,7 +13,7 @@
         "center_x_offset": 0.025,
         "y_margin" : 0.02,
         "radius_as_width_ratio": 0.5,
-        "speed": 2
+        "speed": 1.2
 
     },
     "ball": {

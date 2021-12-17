@@ -62,10 +62,10 @@ class Scene(BaseScene):
         self.test.fill((0,0,0))
         self.playerA.update(dt, events)
         self.playerB.update(dt, events)
-        self.ball.update(dt, events)
+        self.ball.update(dt, events, (self.playerA, self.playerB))
 
-        if events.mouse.left.click_rn:
-            print('hey')
+        if events.mouse.left.down_rn:
+            self.ball.position = events.mouse.pos()
 
     def physics_update(self, dt):
         pass

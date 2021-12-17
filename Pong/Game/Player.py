@@ -39,6 +39,12 @@ class Player:
         self.rect.load()
         return self
 
+    def A(self):
+        return V(self.rect.position.x+self.rect.size.x/2, self.rect.position.y+self.rect.size.x/2)
+        
+    def B(self):
+        return V(self.rect.position.x+self.rect.size.x/2, self.rect.position.y + self.rect.size.y - self.rect.size.x/2)
+
     def update(self, dt, events):
         dy = dt * self.speed * self.game.size.y
         if events[f'up_{self.player}']: self.rect.position.y = max(self.margin*self.game.size.y,self.rect.position.y - dy)

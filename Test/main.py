@@ -26,20 +26,15 @@ class Scene(BaseScene):
 
         self.axis_proj = None
 
-        self.target = V(0,0)
+        self.target = V(100,400)
 
         self.ball = BaseBall(V(0,0), V(1,0), 10, [0,0,255], 5000)
 
 
     def update(self, dt, events):
-        
         if events.mouse.left.down_rn:
-            if self.ball.speed != 0:
-                vel_dir = - (events.mouse.pos() - self.target).normalize()
-                self.ball = BaseBall(events.mouse.pos(), vel_dir, 10, [50,50,255], 500)
-            else:
-                self.ball.speed = 500
-                self.ball.color = (255,0,0)
+            vel_dir = - (events.mouse.pos() - self.target).normalize()
+            self.ball = BaseBall(events.mouse.pos(), vel_dir, 10, [50,50,255], 500)
             
 
 
@@ -49,12 +44,10 @@ class Scene(BaseScene):
         
         if d <= self.ball.radius + self.w/2:
             # if it hits, revert the move
-            print('yo')
             self.ball.position += self.ball.velocity * (-dt) * self.ball.speed 
             self.stopPos = V(self.ball.position)
 
             # stop ball, change color
-            self.ball.speed = 0
             self.ball.color = (0,255,0)
 
             # calculate normal, ..

@@ -8,7 +8,7 @@ from lib.HUD.Button import Button
 from lib.HUD.RoundedRect import RoundedRect
 from lib.Math.Vector import Vector2 as V
 
-from lib.Math.distance import distance_from_point_to_segment
+from lib.Math.distance import distance_and_proj_point_to_segment
 
 class Ball:
     def __init__(self, game, position, velocity, radius, color, speed):
@@ -31,9 +31,9 @@ class Ball:
         self.radius_prc = radius
         self.color = color
         self.speed_prc = speed
-        self.update_prc()
+        self.compute_prc()
 
-    def update_prc(self):
+    def compute_prc(self):
         self.position = self.position_prc * self.game.size
 
         diag = self.game.size.mag()
@@ -43,8 +43,34 @@ class Ball:
     def load(self):
         pass
 
-    def update(self, dt, events):
+    def update(self, dt, events, collide_players):
         self.position += self.velocity * self.speed * dt
+
+        # Collide with the player
+        for player in collide_players:
+            d, axis_proj = distance_and_proj_point_to_segment(self.position, player.A(), player.B())
+            
+            if d <= self.radius + player.rect.size.x/2:
+                # if it hits, revert the move
+                
+                normal = (self.position - axis_proj).normalize()
+           
+                # push it to the side
+                self.position = axis_proj + normal * player.rect.size.x * 1.05
+                
+                normal = (self.position - axis_proj).normalize()
+                projection = - normal * self.velocity.dot(normal) # projection of -vel on the normal
+
+                tmpO = self.position
+                tmpB = tmpO - self.velocity
+                tmpP = tmpO + projection
+                tmpOut = tmpB + (tmpP - tmpB) * 2
+                self.velocity = (tmpOut - tmpO).normalize()
+                
+                break
+
+        
+
     def draw(self):
         pygame.draw.circle(self.game.surface, self.color, self.position.to_pygame(), self.radius)
 
@@ -63,7 +89,7 @@ class BaseBall:
     def draw(self, fenetre):
         pygame.draw.circle(fenetre, self.color, self.position.to_pygame(), self.radius)
 
-    def update(self, dt, collideObjects):
+    def update(self, dt):
         self.position += self.velocity * dt * self.speed
     
     def check_collision(self, player, dt):
