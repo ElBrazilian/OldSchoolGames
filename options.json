@@ -1,0 +1,10 @@
+{
+    "window": {
+        "width": 900,
+        "height": 600,
+        "title": "Calculatrice"
+    },
+    "entry_scene": "Pong/Game",
+
+    "GravitationalConstant":100000
+}

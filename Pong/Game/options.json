@@ -1,0 +1,44 @@
+{
+    "fps_target": 999,
+    "display_fps_count" : true,
+    "fps_count_average" : 2000,
+    "fps_rounding": 2,
+    "physics_frame": 1,
+    "background_color": [22, 22, 22],
+
+    "players": {
+        "colorA": [255,0,0],
+        "colorB": [63, 136, 197],
+        "size": [0.022,0.32],
+        "center_x_offset": 0.025,
+        "y_margin" : 0.02,
+        "radius_as_width_ratio": 0.5,
+        "speed": 2
+
+    },
+    "ball": {
+        "starting_x": 0.5,
+        "starting_y": 0.5,
+        "radius": 0.01,
+        "color": [255,255,255],
+        "speed": 0.3
+    },
+
+    "keys": {
+        "quitter": {
+            "trigger": ["K_ESCAPE"]
+        },
+        "up_a": {
+            "trigger": ["K_z"]
+        },
+        "down_a": {
+            "trigger": ["K_s"]
+        },
+        "up_b": {
+            "trigger": ["K_UP"]
+        },
+        "down_b": {
+            "trigger": ["K_DOWN"]
+        }
+    }
+}
