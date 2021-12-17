@@ -52,7 +52,9 @@ class Ball:
 class BaseBall:
     def __init__(self, pos, vel, radius, color, speed):
         self.position = pos
+        self.ipos = pos
         self.velocity = vel
+        self.ivel = -vel
         self.radius = radius
         self.color = color
         self.speed = speed
@@ -60,3 +62,9 @@ class BaseBall:
 
     def draw(self, fenetre):
         pygame.draw.circle(fenetre, self.color, self.position.to_pygame(), self.radius)
+
+    def update(self, dt, collideObjects):
+        self.position += self.velocity * dt * self.speed
+    
+    def check_collision(self, player, dt):
+        self.speed = 0

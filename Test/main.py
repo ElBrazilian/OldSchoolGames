@@ -19,41 +19,70 @@ class Scene(BaseScene):
         self.rect = RoundedRect(
             self.window, V(x,y), V(w, h), [255,255,255], w/2
         ).load()
-        self.A = V(x+w/2, y+w/2)
-        self.B = V(x+w/2, y + h - w/2)
-        self.N = V()
-        self.M = V()
         self.w = w
 
-        self.ball = BaseBall(V(0,0), V(1,0), 10, [255,0,0], 10)
+        self.A = V(x+w/2, y+w/2)
+        self.B = V(x+w/2, y + h - w/2)
+
+        self.axis_proj = None
+
+        self.target = V(0,0)
+
+        self.ball = BaseBall(V(0,0), V(1,0), 10, [0,0,255], 5000)
 
 
     def update(self, dt, events):
-        self.M = events.mouse.pos()
-        self.M = V(600, 100)
-
-        d, self.N = distance_and_proj_point_to_segment(self.M, self.A, self.B)
+        
+        if events.mouse.left.down_rn:
+            if self.ball.speed != 0:
+                vel_dir = - (events.mouse.pos() - self.target).normalize()
+                self.ball = BaseBall(events.mouse.pos(), vel_dir, 10, [50,50,255], 500)
+            else:
+                self.ball.speed = 500
+                self.ball.color = (255,0,0)
+            
 
 
     def physics_update(self, dt):
-        pass
+        self.ball.update(dt)
+        d, self.axis_proj = distance_and_proj_point_to_segment(self.ball.position, self.A, self.B)
+        
+        if d <= self.ball.radius + self.w/2:
+            # if it hits, revert the move
+            print('yo')
+            self.ball.position += self.ball.velocity * (-dt) * self.ball.speed 
+            self.stopPos = V(self.ball.position)
+
+            # stop ball, change color
+            self.ball.speed = 0
+            self.ball.color = (0,255,0)
+
+            # calculate normal, ..
+            self.normal = (self.ball.position - self.axis_proj).normalize()
+            self.projection = - self.normal * self.ball.velocity.dot(self.normal) # projection of -vel on the normal
+            
+            
+            self.tmpO = self.ball.position
+            self.tmpB = self.tmpO - self.ball.velocity * 50
+            self.tmpP = self.tmpO + self.projection * 50
+            self.tmpOut = self.tmpB + (self.tmpP - self.tmpB) * 2
+            self.ball.velocity = (self.tmpOut - self.tmpO).normalize()
+            #self.side_proj = self.axis_proj + (self.ball.position - self.axis_proj)
 
 
     def draw(self, fenetre):
         self.rect.draw()
         pygame.draw.circle(fenetre, [255, 0,0], self.A.to_pygame(), 10)
         pygame.draw.circle(fenetre, [0, 255,0], self.B.to_pygame(), 10)
-        pygame.draw.circle(fenetre, [0, 0,255], self.N.to_pygame(), 5)
         
+        if self.ball.speed == 0:
+            pygame.draw.circle(fenetre, [0, 0,255], self.axis_proj.to_pygame(), 5)
 
+            pygame.draw.line(fenetre, [255,0,0], self.tmpO.to_pygame(), self.tmpP.to_pygame(), 2)
+            pygame.draw.line(fenetre, [0,255,0], self.tmpO.to_pygame(), self.tmpB.to_pygame(), 2)
+            pygame.draw.line(fenetre, [0,0,255], self.tmpO.to_pygame(), self.tmpOut.to_pygame(), 2)
 
 
         self.ball.draw(fenetre)
 
-
-        dir = (self.M - self.N).normalize()
-        orthog = V(-dir.y, dir.x)
-        newn = self.N + dir * self.w/2
-        pygame.draw.line(fenetre, [100,100,100], self.N.to_pygame(), (self.N + dir * 100).to_pygame(), 4)
-        pygame.draw.line(fenetre, [255,0,0], (newn - orthog*50).to_pygame(), (newn + orthog * 50).to_pygame(), 4)
-
+    

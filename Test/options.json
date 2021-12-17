@@ -1,5 +1,5 @@
 {
-    "fps_target": 60,
+    "fps_target": 250,
     "physics_frame": 1,
     "display_fps_count" : true,
     "fps_count_average" : 2000,

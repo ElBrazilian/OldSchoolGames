@@ -64,6 +64,9 @@ class Scene(BaseScene):
         self.playerB.update(dt, events)
         self.ball.update(dt, events)
 
+        if events.mouse.left.click_rn:
+            print('hey')
+
     def physics_update(self, dt):
         pass
 

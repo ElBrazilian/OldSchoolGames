@@ -96,6 +96,13 @@ class Vector2:
         )
     def to_mag(self, new_mag):
         return self * (new_mag/self.mag())
+    def orthog(self):
+        return Vector2(self.y, -self.x)
+    def project(self, normal):
+        """
+        Projects this vector on the normal
+        """
+        return normal * (self.dot(normal) / normal.mag())
     
     
     # Angular operations (all clockwise)

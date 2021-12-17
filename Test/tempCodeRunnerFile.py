@@ -1,0 +1,1 @@
+self.ball.position - self.ball.velocity * 50
