@@ -47,3 +47,16 @@ class Ball:
         self.position += self.velocity * self.speed * dt
     def draw(self):
         pygame.draw.circle(self.game.surface, self.color, self.position.to_pygame(), self.radius)
+
+
+class BaseBall:
+    def __init__(self, pos, vel, radius, color, speed):
+        self.position = pos
+        self.velocity = vel
+        self.radius = radius
+        self.color = color
+        self.speed = speed
+
+
+    def draw(self, fenetre):
+        pygame.draw.circle(fenetre, self.color, self.position.to_pygame(), self.radius)

@@ -4,7 +4,7 @@
         "height": 600,
         "title": "Calculatrice"
     },
-    "entry_scene": "Pong/Game",
+    "entry_scene": "Test",
 
     "GravitationalConstant":100000
 }

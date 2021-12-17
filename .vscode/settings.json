@@ -2,7 +2,7 @@
     "code-runner.executorMap": {
 
         
-        "python": "cd \"c:\\Users\\natha\\OneDrive\\Python\\OldSchoolGames\\\" && py main.py",
-        "json": "cd \"c:\\Users\\natha\\OneDrive\\Python\\OldSchoolGames\\\" && py main.py",
+        "python": "cd $workspaceRoot; python3 main.py",
+        "json": "cd $workspaceRoot; python3 main.py",
     }
 }
