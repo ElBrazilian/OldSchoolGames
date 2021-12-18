@@ -1,0 +1,15 @@
+{
+    "fps_target": 999,
+    "physics_frame": 1,
+    "display_fps_count" : true,
+    "fps_count_average" : 2000,
+    "fps_rounding": 2,
+
+    "background_color": [50,50,50],
+    "keys": {
+        "quitter": {
+            "trigger": ["K_ESCAPE"],
+            "callback": null
+        }
+    }
+}

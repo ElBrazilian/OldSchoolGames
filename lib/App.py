@@ -23,7 +23,7 @@ class App():
         pygame.init()
         pygame.font.init()
 
-        self.window = pygame.display.set_mode((self.options.window.width, self.options.window.height))
+        self.window = pygame.display.set_mode((self.options.window.width, self.options.window.height), SRCALPHA)
         self.title = self.options.window.title
         self._last_title = None
         pygame.display.set_caption(self.title)
