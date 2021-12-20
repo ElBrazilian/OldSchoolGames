@@ -1,3 +1,5 @@
+from .Particle import Particle
+from .ParticlePool import ParticlePool
 
 class ParticleSystem:
 
@@ -24,3 +26,13 @@ class ParticleSystem:
         self.emitters = []
 
 
+    def add_emitter(self, emitter):
+        self.emitters.append(emitter)
+
+    def update(self, dt):
+        for emitter in self.emitters:
+            emitter.update(dt)
+
+    def draw(self, surface):
+        for emitter in self.emitters:
+            emitter.draw(surface)
