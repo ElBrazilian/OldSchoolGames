@@ -14,6 +14,16 @@
         "width": 2,
         "color": [255,215,0]
     },
+    "res_triangles": {
+        "width": 2,
+        "color": [0,255,0]
+    },
+    "circles": {
+        "pt_radius" : 3,
+        "pt_color"  : [150,150,150],
+        "color" : [255,255,255],
+        "width" : 1
+    },
 
     "true_color": [0,255,0],
     "false_color": [255,0,0],
@@ -41,6 +51,12 @@
         },
         "clear_all":{
             "trigger": ["K_c"]
+        },
+        "show_all_circles_center":{
+            "trigger": ["K_r"]
+        },
+        "show_all_circles":{
+            "trigger": ["K_t"]
         }
     }
 }
