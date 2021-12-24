@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import types
 
 import pygame.gfxdraw
 
@@ -25,17 +26,45 @@ class Particle:
         self.reset(position, direction, speed, lifespan)
 
     def reset(self, position, direction, speed:float, lifespan: float):
-        self.position   = position
-        self.direction  = direction
-        self.speed      = speed 
+        self._position   = position
+        self.position    = V() if type(position) == types.FunctionType else position
+        self._direction  = direction
+        self._speed      = speed 
 
         self.lifespan   = lifespan
         self.life       = lifespan
+        self.time       = 0
 
+        self._ipos       = position
+        self._idir       = direction
+        self._ispeed     = speed
+
+        if type(position) == types.FunctionType:
+            self._ipos = position(self)
+        if type(direction) == types.FunctionType:
+            self._idir = direction(self)
+        if type(speed) == types.FunctionType:
+            self._ispeed = speed(self)
+
+    def direction(self):
+        if type(self._direction) == types.FunctionType:
+            return self._direction(self)
+        else:
+            return self._direction
+
+    def speed(self):
+        if type(self._speed) == types.FunctionType:
+            return self._speed(self)
+        else:
+            return self._speed
 
     def update(self, dt):
-        self.position += self.direction * self.speed * dt
+        if type(self._position) == types.FunctionType:
+            self.position = self._position(self)
+        else:
+            self.position += self.direction() * self.speed() * dt
         self.life -= dt
+        self.time += dt
 
     def __str__(self):
         return '<Particle>'
@@ -56,20 +85,24 @@ class RoundParticle(Particle):
 
     def reset(self, position, direction, speed:float, lifespan: float, color, radius):
         super().reset(position, direction, speed, lifespan)
-        self.color = color
+        self._color = color
         self.radius = radius
         self.surface = pygame.Surface((self.radius*2, self.radius*2), SRCALPHA)
-        pygame.draw.circle(self.surface, self.color[:3], (self.radius, self.radius), self.radius)
-        self.surface.set_alpha(self.color[-1])
-        self.t = 0
+        self.surface.set_alpha(self.color()[-1])
+        self.time = 0
     
+    def color(self):
+        if type(self._color) == types.FunctionType:
+            return self._color(self)
+        else:
+            return self._color
     def update(self, dt):
-        self.position += self.direction * self.speed * dt
-        self.life -= dt
-        self.t += dt
+        super().update(dt)
 
     def draw(self, surface):
         #pygame.gfxdraw.filled_circle(surface, int(self.position.x), int(self.position.y), self.radius, self.color)
+        self.surface.fill((0))
+        pygame.draw.circle(self.surface, self.color()[:3], (self.radius, self.radius), self.radius)
         surface.blit(self.surface, (self.position.x - self.radius, self.position.y - self.radius))
 
 class ParticleTemplate(Particle):

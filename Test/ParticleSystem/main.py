@@ -12,6 +12,7 @@ from .Particle import Particle
 from .ParticlePool import ParticlePool
 from .ParticleSystem import ParticleSystem
 from .Emitter import *
+import math
 
 class Scene(BaseScene):
     def load(self):
@@ -19,7 +20,7 @@ class Scene(BaseScene):
         self.surface = pygame.Surface((self.app.options.window.width,self.app.options.window.height), SRCALPHA)
 
         self.system = ParticleSystem()
-        self.emitter = LinearEmitter(self.system, 2, V(self.app.options.window.width/2,self.app.options.window.height/2), V(0,-1),400,3, (0,0,0,25), 20)
+        self.emitter = LinearEmitter(self.system, lambda emitter: max(min(2, emitter.time),10), V(self.app.options.window.width/2,self.app.options.window.height/2), V(0,-1),lambda part: 400*(1-math.exp(-2*part.time)),3, lambda part: (min(255,part.time*100), 0,0,255), 20)
         self.system.add_emitter(self.emitter)
 
     def update(self, dt, events):

@@ -4,7 +4,7 @@
         "height": 800,
         "title": "Calculatrice"
     },
-    "entry_scene": "Test/ParticleSystem",
+    "entry_scene": "Test/TriangulationDelaunay",
 
     "GravitationalConstant":100000
 }
