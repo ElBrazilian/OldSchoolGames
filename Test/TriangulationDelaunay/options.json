@@ -5,11 +5,42 @@
     "fps_count_average" : 2000,
     "fps_rounding": 2,
 
-    "background_color": [255,215,0],
+    "points": {
+        "color": [255,255,255],
+        "radius": 5,
+        "del_radius": 10
+    },
+    "all_triangles": {
+        "width": 2,
+        "color": [255,215,0]
+    },
+
+    "true_color": [0,255,0],
+    "false_color": [255,0,0],
+
+    "background_color": [12,12,12],
     "keys": {
         "quitter": {
             "trigger": ["K_ESCAPE"],
             "callback": null
+        },
+        "save_points":{
+            "trigger": ["K_s"]
+        },
+        "update":{
+            "trigger": ["K_u"]
+        },
+        "show_all_triangles":{
+            "trigger": ["K_e"]
+        },
+        "swap_auto_update":{
+            "trigger": ["K_a"]
+        },
+        "show_points":{
+            "trigger": ["K_z"]
+        },
+        "clear_all":{
+            "trigger": ["K_c"]
         }
     }
 }
