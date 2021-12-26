@@ -56,6 +56,11 @@ class Vector2:
         return Vector2(-self.x, -self.y)
     def __sub__(self, vec):
         return self + (-vec)
+    def __eq__(self, other):
+        if type(other) == Vector2:
+            return self.x == other.x and self.y == other.y
+        else:
+            return False
 
     # Multiplications
     def __mul__(self, other):
@@ -103,7 +108,6 @@ class Vector2:
         Projects this vector on the normal
         """
         return normal * (self.dot(normal) / normal.mag())
-    
     
     # Angular operations (all clockwise)
     def angle_to_horizon(self):

@@ -11,6 +11,7 @@ from lib.HUD.Canvas import Canvas
 from lib.HUD.Label import Label
 import math
 
+
 class Scene(BaseScene):
     def load(self):
         pygame.font.init()
@@ -54,6 +55,7 @@ class Scene(BaseScene):
 
         self.pt = (400,50)
         self.isIn = False
+        self.i = 0
     
     def update(self, dt, events):
         if events.mouse.left.down_rn:
@@ -104,16 +106,9 @@ class Scene(BaseScene):
         self.all_circle_radius = []
         self.all_circle_center = []
 
-        liste = []
-        self.points.sort()
-        self.all_triangles = list_all_triangles(self.points)
-        
-        # Début de l'algo
-        super_triangle = compute_super_triangle(self.points)
-        liste = [super_triangle]
+        points = self.points
+        self.res_triangles = delaunay_triangulation(points)
 
-        
-        self.res_triangles = list(liste)
 
     def physics_update(self, dt):
         pass
