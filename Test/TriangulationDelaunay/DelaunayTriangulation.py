@@ -88,6 +88,9 @@ def compute_super_triangle(points):
     return [list(D.to_pygame()) for D in [A,B,C]]
 
 def inside_circumcircle(point, triangle):
+    """
+    Checks if a point is in the circumcircle of the given triangle
+    """
     center, rayon_c = compute_circumcircle(triangle)
     return (V(center) - V(point)).mag_sqr() <= rayon_c
 def edges(triangle):
@@ -98,6 +101,10 @@ def edges(triangle):
     ]
 
 def remove_super_triangle(triangles, super_triangle):
+    """
+    Removes all triangles sharing a vertex with the super_triangle
+
+    """
     def point_in_common(triangleA, triangleB):
         for point1 in triangleA:
             for point2 in triangleB:
@@ -112,9 +119,13 @@ def remove_super_triangle(triangles, super_triangle):
     return res
 
 def delaunay_triangulation(points):
+    """
+    Creates the delaunay triangulation of a list of points (as list of int/float)
+    returns a list of triangles
+    """
     if len(points) < 3:
         return []
-        
+
     super_triangle = compute_super_triangle(points)
     triangulation = [super_triangle]
     for point in points:
