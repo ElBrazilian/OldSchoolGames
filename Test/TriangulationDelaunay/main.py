@@ -104,46 +104,13 @@ class Scene(BaseScene):
         self.all_circle_radius = []
         self.all_circle_center = []
 
-        def compute_coeffs(A, B):
-            A = V(A)
-            B = V(B)
-
-            a = 2*(B.x - A.x)
-            b = 2*(B.y - A.y)
-            c = A.x ** 2 + A.y ** 2 - B.x ** 2 - B.y ** 2
-
-            return a,b,c
-
         liste = []
         self.points.sort()
         self.all_triangles = list_all_triangles(self.points)
-        for triangle in self.all_triangles:
-            flag = True
-
-            A, B, C = triangle
-            a1,b1,c1 = compute_coeffs(A, B)
-            a2,b2,c2 = compute_coeffs(A, C)
-
-            x = (-c1*b2+c2*b1)/(a1*b2-b1*a2)
-            y = (-c2*a1+c1*a2)/(a1*b2-b1*a2)
-
-            r2 = (x-A[0])**2 + (y-A[1])**2
-
-            self.all_circle_center.append((x, y))
-            self.all_circle_radius.append(math.sqrt(r2)) 
-
-            i = 0
-            N = len(self.points)
-            while i < N and flag:
-                P = self.points[i]
-                if not point_in_triangle(P, A,B,C):
-                    distance = (V(P) - V(x,y)).mag_sqr()
-                    if distance <= r2:
-                        flag = False
-                i += 1
-            
-            if flag:
-                liste.append(triangle)
+        
+        # Début de l'algo
+        super_triangle = compute_super_triangle(self.points)
+        liste = [super_triangle]
 
         
         self.res_triangles = list(liste)
