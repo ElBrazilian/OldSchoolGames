@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from lib.BaseScene import BaseScene
 from lib.Math.Vector import Vector2 as V
-import json
+import json, math
 
 from .RayCasting import *
 
@@ -58,9 +58,22 @@ class Scene(BaseScene):
             print('saved')
 
     def physics_update(self, dt):
+        # TOUT AFFICHER
         self.inter, self.all_inters = ray_casting(self.position, self.dir, self.edges)
 
+        # "VRAI" RAYCASTING
+        # self.draw_points = []
+        # d_alpha = 2 * math.pi / self.options.num_rays
+        # for i in range(self.options.num_rays):
+        #     angle = d_alpha * i
+        #     inter, _ = ray_casting(self.position, V.unit_from_angle(angle), self.edges)
+        #     if inter:
+        #         self.draw_points.append(inter)
+
+
+
     def draw(self, fenetre):
+        # SI ON VEUT TOUT AFFICHER
         if self.start_pos != None:
             pygame.draw.circle(fenetre, self.options.start_pos.color, self.start_pos.to_pygame(), self.options.start_pos.radius)
         
@@ -77,3 +90,9 @@ class Scene(BaseScene):
 
         if self.inter != None:
             pygame.draw.circle(fenetre, self.options.inter.color, self.inter.to_pygame(), self.options.inter.radius)
+
+
+        # SI ON VEUT FAIRE DU "VRAI" RAYCASTING
+        # pygame.draw.circle(fenetre, self.options.player.color, self.position.to_pygame(), self.options.player.radius)
+        # for point in self.draw_points:
+        #     pygame.draw.circle(fenetre, (255,255,255), point.to_pygame(), 2)
