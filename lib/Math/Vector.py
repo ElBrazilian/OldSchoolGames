@@ -129,6 +129,9 @@ class Vector2:
         """
     
         return int(self.x), int(self.y)
+    def to_list(self):
+        """ returns the vector as [v.x, v.y] """
+        return [self.x, self.y]
     def to_int(self):
         return Vector2(
             int(self.x),
