@@ -4,7 +4,7 @@
         "height": 800,
         "title": "Calculatrice"
     },
-    "entry_scene": "Test/RayCasting",
+    "entry_scene": "Test/BallPartition",
 
     "GravitationalConstant":100000
 }

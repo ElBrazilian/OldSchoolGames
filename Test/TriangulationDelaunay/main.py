@@ -16,7 +16,10 @@ class Scene(BaseScene):
     def load(self):
         pygame.font.init()
         with open('Test/TriangulationDelaunay/points.json', 'r') as file:
-            self.points = json.loads(file.read())['points']
+            points = json.loads(file.read())['points']
+        self.points = []
+        for point in points:
+            self.points.append([int(x) for x in point])
         self.all_triangles = []
         self.all_circle_center = []
         self.all_circle_radius = []
