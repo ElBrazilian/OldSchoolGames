@@ -1,8 +1,8 @@
 {
     "debug": {
         "points":{
-            "show": true,
-            "color": [255,255,255],
+            "show": false,
+            "color": [0,0,255],
             "radius": 4
         },
         "triangles": {
@@ -16,8 +16,8 @@
     "ball": {
         "outer_points": 32,
         "radius": 300,
-        "random_inside_points": 3,
-        "random_inside_points_min_dist": 0
+        "random_inside_points": 64,
+        "random_inside_points_min_dist_prc": 0.016
     },
     "option_update_check_interval": 3,
     "check_option_update": true,

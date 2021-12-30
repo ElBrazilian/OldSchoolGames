@@ -14,6 +14,9 @@
         },
         "dump_points":{
             "trigger": ["K_s"]
+        },
+        "reload":{
+            "trigger": ["K_r"]
         }
     }
 }

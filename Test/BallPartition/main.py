@@ -17,6 +17,8 @@ class Scene(BaseScene):
 
         if events.on_first_dump_points:
             self.ball.dump_points('Test/BallPartition/points.json')
+        if events.on_first_reload:
+            self.ball.load()
 
     def physics_update(self, dt):
         pass

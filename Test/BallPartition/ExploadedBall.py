@@ -1,8 +1,9 @@
 
-import json, os, math, pygame
+import json, os, math, pygame, numpy as np
 
 from lib.Options import Options
 from lib.Math.Vector import Vector2 as V
+
 
 from lib.Math.DelaunayTriangulation import delaunay_triangulation
 
@@ -22,7 +23,6 @@ class ExploadedBall:
 
     def init_vars(self):
         self.points = []
-        self.points_as_list = []
         self.triangles = []
 
     def load(self):
@@ -35,18 +35,41 @@ class ExploadedBall:
             alpha = i * d_alpha
 
             point = V.from_polar(self.options.ball.radius, alpha)
-            self.points.append(point)
-            self.points_as_list.append(point.to_pygame())
+            self.points.append(point.to_int())
+        
+        # Add center point
         point = V()
         self.points.append(point)
-        self.points_as_list.append(point.to_pygame())
 
 
         # Adding inner points
+        num_points = self.options.ball.random_inside_points
+        points_dist_sq = self.options.ball.random_inside_points_min_dist_prc * (self.options.ball.radius ** 2)
+        def valid(point, points, radius_sq):
+            """
+            check if the new point "point" is valid (ie. every point in "points" is a min distance squared of "radius_sq" from "point")
+            """
+            for other in points:
+                if (point-other).mag_sqr() < radius_sq:
+                    return  False
+            return True
 
+        init_n = len(self.points)
+        while len(self.points) - init_n < num_points:
+            # Generate new random point within the sphere
+            r = np.random.random_sample() * self.options.ball.radius
+            alpha = np.random.random_sample() * 2 * math.pi
+            point = V.from_polar(r, alpha).to_int()
+
+            # Check if the point is too close to another
+            if valid(point, self.points, points_dist_sq):
+                # Add the point if it's good
+                self.points.append(point)
+
+        print(len(self.points))
         
         # Computing delaunay triangulation
-        self.triangles = delaunay_triangulation(self.points_as_list)
+        self.triangles = delaunay_triangulation([p.to_list() for p in self.points])
         
 
     def load_options(self):
@@ -70,8 +93,8 @@ class ExploadedBall:
 
     def dump_points(self, filepath):
         points = []
-        for point in self.points_as_list:
-            points.append((self.position + V(point)).to_list())
+        for point in self.points:
+            points.append((self.position + point).to_list())
         txt = json.dumps({"points": points}, indent=4)
         with open(filepath, 'w') as file:
             file.write(txt)
